@@ -9,24 +9,28 @@ function getPersonInfo2({name,age}) {
   return `Имя:${name}, Возраст:${age}`
 }
 function calculateArea(rectangle) {
-  return rectangle.widht*rectangle.height
+  return rectangle.width*rectangle.height
 }
-function calculateArea2({widht,height}) {
-  return widht*height
+function calculateArea2({width,height}) {
+  return width*height
 }
 function addProperty(obj, key, value) {
   obj[key]=value;
   return obj;
 }
-const user1 = {
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
+const user = {
   name: 'Alice',
   email: 'alice@example.com'
 };
 function addUserDetails(user) {
   const x = {};
-  x.name = user.name;
-  x.email = user.email;
-  x.id = Math.round(Math.random()*100);
+  for (let key in user) {
+    x[key] = user[key]
+  }
+  x.id = Math.random();
   return x;
 }
 const car = {
@@ -37,13 +41,13 @@ function getCarInfo({brand,model}) {
   return `Марка:${brand} модель:${model}`
 }
 function concatObjects(obj1, obj2) {
-  const Obj3 = {}
-  for (let key in obj1) {
-    Obj3[key] = obj1[key]
-  };
-  for (let key in obj2) {
-    if (obj2[key]!=Obj3[key]) 
-    Obj3[key] = obj2[key]
+  const obj3 = {};
+  let arr1 = Object.entries(obj1);
+  let arr2 = Object.entries(obj2);
+  let concatedArr = arr2.concat(arr1);
+  for (let [key,value] of concatedArr){
+    obj3[key]=value;
   }
-  return Obj3;
+  return obj3;
 }
+module.exports= {getPersonInfo,getPersonInfo2,getCarInfo,concatObjects,addUserDetails,addProperty,calculateArea,calculateArea2,person,user,car,mockMath}
